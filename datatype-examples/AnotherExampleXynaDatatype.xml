@@ -1,0 +1,44 @@
+<DataType xmlns="http://www.gip.com/xyna/xdev/xfractmod" Version="1.8" TypeName="AnotherExampleXynaDatatype" TypePath="xyna.example" Label="Another Example Xyna Datatype" IsAbstract="false">
+  <Meta>
+    <IsServiceGroupOnly>false</IsServiceGroupOnly>
+    <Documentation>This is a datatype with seven indentical attributes to show naming of attribute variable names.</Documentation>
+  </Meta>
+  <Data Label="Data" VariableName="data">
+    <Meta>
+      <Type>String</Type>
+      <Documentation>The first is not special.</Documentation>
+    </Meta>
+  </Data>
+  <Data Label="Data" VariableName="data0">
+    <Meta>
+      <Type>String</Type>
+      <Documentation>The second gets a number attached.</Documentation>
+    </Meta>
+  </Data>
+  <Data Label="Data" VariableName="data1">
+    <Meta>
+      <Type>String</Type>
+      <Documentation>The number increases with each attribute with the same label.</Documentation>
+    </Meta>
+  </Data>
+  <Data Label="Data" VariableName="data2">
+    <Meta>
+      <Type>String</Type>
+    </Meta>
+  </Data>
+  <Data Label="Data" VariableName="data3">
+    <Meta>
+      <Type>String</Type>
+    </Meta>
+  </Data>
+  <Data Label="Data" VariableName="data4">
+    <Meta>
+      <Type>String</Type>
+    </Meta>
+  </Data>
+  <Data Label="Data" VariableName="data5">
+    <Meta>
+      <Type>String</Type>
+    </Meta>
+  </Data>
+</DataType>

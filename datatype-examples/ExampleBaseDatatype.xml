@@ -1,0 +1,64 @@
+<DataType xmlns="http://www.gip.com/xyna/xdev/xfractmod" Version="1.8" TypeName="ExampleBaseDatatype" TypePath="xyna.example" Label="Example Base Datatype " IsAbstract="true">
+  <Meta>
+    <IsServiceGroupOnly>false</IsServiceGroupOnly>
+    <Documentation>This is an example of an abstract datatype with methods.</Documentation>
+  </Meta>
+  <Service Label="Example Base Datatype " TypeName="ExampleBaseDatatype">
+    <Operation Label="this is an abstract service aka method" Name="thisIsAnAbstractServiceAkaMethod" IsStatic="false" IsAbstract="true">
+      <Input>
+        <Data ID="8" Label="Example Xyna Datatype" VariableName="exampleXynaDatatype8" ReferenceName="ExampleXynaDatatype" ReferencePath="xyna.example">
+        </Data>
+      </Input>
+      <Output>
+        <Data ID="11" Label="Another Example Xyna Datatype" VariableName="anotherExampleXynaDatatype11" ReferenceName="AnotherExampleXynaDatatype" ReferencePath="xyna.example">
+        </Data>
+      </Output>
+      <Throws>
+        <Exception ID="13" Label="Example Xyna Exception" VariableName="exampleXynaException13" ReferenceName="ExampleXynaException" ReferencePath="xyna.example">
+        </Exception>
+      </Throws>
+      <Meta>
+        <Documentation>This method needs to be implemented by all subtypes. The method signature must match exactly including the exceptions.</Documentation>
+      </Meta>
+    </Operation>
+    <Operation Label="a Java service" Name="aJavaService" IsStatic="false">
+      <Input>
+        <Data ID="31" Label="Example Xyna Datatype" VariableName="exampleXynaDatatype31" ReferenceName="ExampleXynaDatatype" ReferencePath="xyna.example">
+        </Data>
+        <Data ID="36" Label="Another Example Xyna Datatype" VariableName="anotherExampleXynaDatatype36" IsList="true" ReferenceName="AnotherExampleXynaDatatype" ReferencePath="xyna.example">
+        </Data>
+      </Input>
+      <Output>
+        <Data ID="27" Label="Example Xyna Datatype" VariableName="exampleXynaDatatype27" ReferenceName="ExampleXynaDatatype" ReferencePath="xyna.example">
+        </Data>
+      </Output>
+      <Meta>
+        <Documentation>An implementaion can be done using Java code.
+
+Always use full Java package names.</Documentation>
+      </Meta>
+      <SourceCode>
+        <CodeSnippet Type="Java">/**
+     here you are within a Java method which needs to be implemented.
+     you can see the input variable names:
+     exampleXynaDatatype31 and anotherExampleXynaDatatype36
+*/
+
+// every datatype has a default constructor.
+var result =  new xyna.example.ExampleXynaDatatype();
+
+// getters and setters are based on the variable name of the attribute in the Xyna datatype.
+var t1 = exampleXynaDatatype31.getAStringAttribute();
+
+result.setAStringAttribute(t1);
+result.setABooleanAttribute0(java.lang.Boolean.TRUE);
+
+result.setAListOfAComplexDatatype(java.util.List.of(anotherExampleXynaDatatype36.get(0)));
+
+result.setAPrimitiveList(new java.util.ArrayList&lt;String&gt;());
+
+return result;</CodeSnippet>
+      </SourceCode>
+    </Operation>
+  </Service>
+</DataType>

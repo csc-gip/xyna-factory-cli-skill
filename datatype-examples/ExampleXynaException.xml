@@ -1,0 +1,21 @@
+<ExceptionStore xmlns="http://www.gip.com/xyna/3.0/utils/message/storage/1.1" Version="1.8" Name="ExceptionStore">
+  <ExceptionType Code="DEVEL-00000" TypeName="ExampleXynaException" TypePath="xyna.example" Label="Example Xyna Exception" IsAbstract="false" BaseTypeName="XynaExceptionBase" BaseTypePath="core.exception">
+    <Meta>
+      <Documentation>This is an example of a Xyna Exception datatype. It corresponds to a Java Exception. It is always an extension of core.exception.XynaExceptionBase.
+
+A Xyna Exception can have messages in English and German to improve the user experience.</Documentation>
+    </Meta>
+    <Data Label="attribute" VariableName="attribute">
+      <Meta>
+        <Type>String</Type>
+      </Meta>
+    </Data>
+    <Data Label="another attribute" VariableName="anotherAttribute">
+      <Meta>
+        <Type>String</Type>
+      </Meta>
+    </Data>
+    <MessageText Language="DE">Ein Exeption Nachricht kann die Attribute %0% und %1% gemäß ihrer Reihenfolge referenzieren.</MessageText>
+    <MessageText Language="EN">An exception message can reference the attributes %0% and %1% based on the order they are defined.</MessageText>
+  </ExceptionType>
+</ExceptionStore>

@@ -1,0 +1,30 @@
+
+<DataType xmlns="http://www.gip.com/xyna/xdev/xfractmod" Version="1.8" TypeName="ExampleServiceGroup" TypePath="xyna.example" Label="Example Service Group" IsAbstract="false">
+  <Meta>
+    <IsServiceGroupOnly>true</IsServiceGroupOnly>
+  </Meta>
+  <Service Label="Example Service Group" TypeName="ExampleServiceGroup">
+    <Operation Label="example java servcie" Name="exampleJavaServcie" IsStatic="true">
+      <Input>
+      </Input>
+      <Output>
+      </Output>
+      <SourceCode>
+        <CodeSnippet Type="Java">// do sonething
+
+return;</CodeSnippet>
+      </SourceCode>
+    </Operation>
+    <Operation Label="another servcie" Name="anotherServcie" IsStatic="true">
+      <Input>
+      </Input>
+      <Output>
+        <Data ID="1" Label="Text" VariableName="text1" ReferenceName="Text" ReferencePath="base">
+        </Data>
+      </Output>
+      <SourceCode>
+        <CodeSnippet Type="Java">return new base.Text("Hello world!");</CodeSnippet>
+      </SourceCode>
+    </Operation>
+  </Service>
+</DataType>

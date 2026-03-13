@@ -1,0 +1,44 @@
+<DataType xmlns="http://www.gip.com/xyna/xdev/xfractmod" Version="1.8" TypeName="ExampleSubtype" TypePath="xyna.example" Label="Example Subtype" IsAbstract="false" BaseTypeName="ExampleBaseDatatype" BaseTypePath="xyna.example">
+  <Meta>
+    <IsServiceGroupOnly>false</IsServiceGroupOnly>
+    <Documentation>This is a subtype which is no longer abstract. It references the basetype using its TypePath and TypeName.
+
+It can have its own attributes and methods.</Documentation>
+  </Meta>
+  <Data Label="attribute of subtype" VariableName="attributeOfSubtype">
+    <Meta>
+      <Type>String</Type>
+    </Meta>
+  </Data>
+  <Service Label="Example Subtype" TypeName="ExampleSubtype">
+    <Operation Label="this is an abstract service aka method" Name="thisIsAnAbstractServiceAkaMethod" IsStatic="false">
+      <Input>
+        <Data ID="1" Label="Example Xyna Datatype" VariableName="exampleXynaDatatype1" ReferenceName="ExampleXynaDatatype" ReferencePath="xyna.example">
+        </Data>
+      </Input>
+      <Output>
+        <Data ID="3" Label="Another Example Xyna Datatype" VariableName="anotherExampleXynaDatatype3" ReferenceName="AnotherExampleXynaDatatype" ReferencePath="xyna.example">
+        </Data>
+      </Output>
+      <Throws>
+        <Exception ID="4" Label="Example Xyna Exception" VariableName="exampleXynaException4" ReferenceName="ExampleXynaException" ReferencePath="xyna.example">
+        </Exception>
+      </Throws>
+      <Meta>
+        <Documentation>This is the implementation of the abstract method of the base type.</Documentation>
+      </Meta>
+      <SourceCode>
+        <CodeSnippet Type="Java">return null;</CodeSnippet>
+      </SourceCode>
+    </Operation>
+    <Operation Label="method of subtype" Name="methodOfSubtype" IsStatic="false">
+      <Input>
+      </Input>
+      <Output>
+      </Output>
+      <SourceCode>
+        <CodeSnippet Type="Java">// do something</CodeSnippet>
+      </SourceCode>
+    </Operation>
+  </Service>
+</DataType>

@@ -1,0 +1,59 @@
+<DataType xmlns="http://www.gip.com/xyna/xdev/xfractmod" Version="1.8" TypeName="ExampleXynaDatatype" TypePath="xyna.example" Label="Example Xyna Datatype" IsAbstract="false">
+  <Meta>
+    <IsServiceGroupOnly>false</IsServiceGroupOnly>
+    <Documentation>This is the documentation of a Xyna datatype.
+
+A datatype has a TypePath corresponding to its Java package name and a TypeName which is the CamelCase Java class name.
+
+It can contain Java primitive types (except float and Float), complex Xyna datatypes and lists of these.</Documentation>
+  </Meta>
+  <Data Label="a string attribute" VariableName="aStringAttribute">
+    <Meta>
+      <Type>String</Type>
+      <Documentation>This is the documentation for an attribute of a Xyna datatype.</Documentation>
+    </Meta>
+  </Data>
+  <Data Label="an int attribute" VariableName="anIntAttribute">
+    <Meta>
+      <Type>int</Type>
+    </Meta>
+  </Data>
+  <Data Label="an Integer attribute" VariableName="anIntegerAttribute">
+    <Meta>
+      <Type>Integer</Type>
+    </Meta>
+  </Data>
+  <Data Label="a long attribute" VariableName="aLongAttribute">
+    <Meta>
+      <Type>long</Type>
+    </Meta>
+  </Data>
+  <Data Label="a Long attribute" VariableName="aLongAttribute0">
+    <Meta>
+      <Type>Long</Type>
+    </Meta>
+  </Data>
+  <Data Label="a boolean attribute" VariableName="aBooleanAttribute">
+    <Meta>
+      <Type>boolean</Type>
+    </Meta>
+  </Data>
+  <Data Label="a Boolean attribute" VariableName="aBooleanAttribute0">
+    <Meta>
+      <Type>Boolean</Type>
+    </Meta>
+  </Data>
+  <Data Label="a complex datatype" VariableName="aComplexDatatype" ReferenceName="AnotherExampleXynaDatatype" ReferencePath="xyna.example">
+    <Meta>
+      <Documentation>A complex datatype is referenced via its TypePath and TypeName.</Documentation>
+    </Meta>
+  </Data>
+  <Data Label="a list of a complex datatype" VariableName="aListOfAComplexDatatype" IsList="true" ReferenceName="AnotherExampleXynaDatatype" ReferencePath="xyna.example">
+  </Data>
+  <Data Label="a primitive list" VariableName="aPrimitiveList" IsList="true">
+    <Meta>
+      <Type>String</Type>
+      <Documentation>A list of a primitive datatype.</Documentation>
+    </Meta>
+  </Data>
+</DataType>
