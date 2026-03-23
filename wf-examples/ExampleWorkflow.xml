@@ -1,0 +1,414 @@
+<Service xmlns="http://www.gip.com/xyna/xdev/xfractmod" Version="1.8" TypeName="ExampleWorkflow" TypePath="xyna.example.workflows" Label="Example Workflow">
+  <Meta>
+    <Documentation>Workflows are processes that describe what happens to data, while services are the places to handle how data is manipulated.
+
+
+- Wokflows can have inputs and outputs
+
+- Inputs and outputs of workflows MUST be Xyna datatypes
+
+- Inputs and outputs of workflow steps MUST be Xyna datatypses
+
+- All inputs are immutable, you MUST use a servcie, a subworkflow or a mapping to create a new instance with altered or new data.</Documentation>
+  </Meta>
+  <Operation ID="0" Label="Example Workflow" Name="ExampleWorkflow" IsStatic="false">
+    <Input>
+      <Data ID="18" Label="Input Datatype" VariableName="inputDatatype18" ReferenceName="InputDatatype" ReferencePath="xyna.example.datatypes">
+      </Data>
+    </Input>
+    <Output>
+      <Data ID="31" Label="Output Datatype" VariableName="outputDatatype31" IsList="true" ReferenceName="OutputDatatype" ReferencePath="xyna.example.datatypes">
+      </Data>
+    </Output>
+    <Throws>
+      <Exception Label="Xyna Exception Base" VariableName="xynaExceptionBase10413" ReferenceName="XynaExceptionBase" ReferencePath="core.exception">
+        <Meta>
+          <Type>XynaExceptionBase</Type>
+        </Meta>
+      </Exception>
+    </Throws>
+    <ServiceReference ID="46" Label="Example Subworkflow" ReferenceName="ExampleSubworkflow" ReferencePath="xyna.example.workflows">
+      <Source RefID="45"/>
+      <Target RefID="45"/>
+    </ServiceReference>
+    <ServiceReference ID="67" Label="Service Group for Workflow" ReferenceName="ServiceGroupForWorkflow.ServiceGroupForWorkflow" ReferencePath="xyna.example.servicegroup">
+      <Source RefID="66"/>
+      <Target RefID="66"/>
+    </ServiceReference>
+    <ServiceReference ID="2485" Label="Input Datatype" ReferenceName="InputDatatype.InputDatatype" ReferencePath="xyna.example.datatypes">
+      <Source RefID="2484"/>
+      <Target RefID="2484"/>
+    </ServiceReference>
+    <Mappings ID="1831" Label="Initialize a datatype">
+      <Meta>
+        <Documentation>Set initial value of base.Text</Documentation>
+      </Meta>
+      <Output>
+        <Data ID="1874" VariableName="text1874" Label="Text" ReferenceName="Text" ReferencePath="base">
+          <Source RefID="1831"/>
+        </Data>
+        <Target RefID="1875">
+        </Target>
+      </Output>
+      <Mapping>%0%.text="Hello world!"</Mapping>
+    </Mappings>
+    <Mappings ID="767" Label="Modify Input">
+      <Meta>
+        <Documentation>- Yiou can concat as manny strings as you need
+- do calculations
+- call methods of datatypes
+
+
+Inputs and outputs are counted from 0 in order and referenced by %i%, i.e. %2% is the third element of the list of inputs and outputs.</Documentation>
+      </Meta>
+      <Input>
+        <Data ID="1014" VariableName="inputDatatype1014" Label="Input Datatype" ReferenceName="InputDatatype" ReferencePath="xyna.example.datatypes">
+          <Source RefID="767"/>
+        </Data>
+        <Source RefID="18">
+        </Source>
+      </Input>
+      <Input>
+        <Data ID="2162" VariableName="text2162" Label="Text" ReferenceName="Text" ReferencePath="base">
+          <Source RefID="767"/>
+        </Data>
+        <Source RefID="1875">
+        </Source>
+      </Input>
+      <Output>
+        <Data ID="810" VariableName="serviceInputDatatype810" Label="Service Input Datatype" ReferenceName="ServiceInputDatatype" ReferencePath="xyna.example.datatypes">
+          <Source RefID="767"/>
+        </Data>
+        <Target RefID="811">
+        </Target>
+      </Output>
+      <Mapping>%2%.data=concat("prefix_", %0%.data, "_suffix")</Mapping>
+      <Mapping>%2%.data0="1"+"12345"</Mapping>
+      <Mapping>%2%.data1=%0%.datatypeMethod(%1%).text</Mapping>
+    </Mappings>
+    <Function ID="66" Label="Example Service">
+      <Source RefID="67">
+      </Source>
+      <Source RefID="811">
+      </Source>
+      <Target RefID="67">
+      </Target>
+      <Target RefID="69">
+      </Target>
+      <Meta>
+        <Documentation>You can call methods of servcie groups</Documentation>
+      </Meta>
+      <Invoke ServiceID="67" Operation="exampleService">
+        <Source RefID="811">
+        </Source>
+      </Invoke>
+      <Receive ServiceID="67">
+        <Target RefID="69">
+        </Target>
+      </Receive>
+    </Function>
+    <Choice ID="8996" TypePath="server" TypeName="BaseChoiceTypeFormula">
+      <Source RefID="69">
+      </Source>
+      <Target RefID="9895">
+      </Target>
+      <Meta>
+        <OuterConditionPart>?</OuterConditionPart>
+      </Meta>
+      <Input>
+        <Data ID="9103" VariableName="serviceOutputDatatype9103" Label="Service Output Datatype" ReferenceName="ServiceOutputDatatype" ReferencePath="xyna.example.datatypes">
+          <Source RefID="8996"/>
+        </Data>
+        <Source RefID="69">
+        </Source>
+      </Input>
+      <Case ID="9050" Label="first case" Premise="%0%.data!=null&amp;&amp;length(%0%.data)&gt;&quot;0&quot;">
+        <Mappings ID="7731" Label="convert">
+          <Input>
+            <Data ID="7935" VariableName="serviceOutputDatatype7935" Label="Service Output Datatype" ReferenceName="ServiceOutputDatatype" ReferencePath="xyna.example.datatypes">
+              <Source RefID="7731"/>
+            </Data>
+            <Source RefID="69">
+            </Source>
+          </Input>
+          <Output>
+            <Data ID="7833" VariableName="text7833" Label="Text" ReferenceName="Text" ReferencePath="base">
+              <Source RefID="7731"/>
+            </Data>
+            <Target RefID="9354">
+            </Target>
+          </Output>
+          <Mapping>%1%.text=%0%.data</Mapping>
+        </Mappings>
+        <Function ID="2484" Label="datatype method">
+          <Source RefID="2485">
+          </Source>
+          <Source RefID="18">
+          </Source>
+          <Source RefID="9354">
+          </Source>
+          <Target RefID="2485">
+          </Target>
+          <Target RefID="9406">
+          </Target>
+          <Meta>
+            <Documentation>You can call datatype methods</Documentation>
+          </Meta>
+          <Invoke ServiceID="2485" Operation="datatypeMethod">
+            <Source RefID="18">
+            </Source>
+            <Source RefID="9354">
+              <Meta>
+                <LinkType>UserConnected</LinkType>
+              </Meta>
+            </Source>
+          </Invoke>
+          <Receive ServiceID="2485">
+            <Target RefID="9406">
+            </Target>
+          </Receive>
+        </Function>
+        <Assign ID="9052">
+          <Source RefID="9406">
+          </Source>
+          <Target RefID="9895">
+          </Target>
+          <Copy>
+            <Source RefID="9406">
+              <Meta>
+                <LinkType>UserConnected</LinkType>
+              </Meta>
+            </Source>
+            <Target RefID="9895">
+            </Target>
+          </Copy>
+        </Assign>
+        <Data ID="9354" VariableName="text9354" Label="Text" ReferenceName="Text" ReferencePath="base">
+          <Source RefID="7731"/>
+        </Data>
+        <Data ID="9406" VariableName="text9406" Label="Text" ReferenceName="Text" ReferencePath="base">
+          <Source RefID="2484"/>
+        </Data>
+      </Case>
+      <Case ID="9735" Label="second case" Premise="&quot;some other condition&quot;==&quot;which is never true&quot;">
+        <Mappings ID="9838" Label="init">
+          <Meta>
+            <Documentation>use a Choice as switch expression with arbitrary predicates as condition</Documentation>
+          </Meta>
+          <Output>
+            <Data ID="9889" VariableName="text9889" Label="Text" ReferenceName="Text" ReferencePath="base">
+              <Source RefID="9838"/>
+            </Data>
+            <Target RefID="9890">
+            </Target>
+          </Output>
+        </Mappings>
+        <Assign ID="9737">
+          <Source RefID="9890">
+          </Source>
+          <Target RefID="9895">
+          </Target>
+          <Copy>
+            <Source RefID="9890">
+            </Source>
+            <Target RefID="9895">
+            </Target>
+          </Copy>
+        </Assign>
+      </Case>
+      <Case ID="8997" Label="default" IsDefault="true">
+        <Mappings ID="8232" Label="copy to create output for choice">
+          <Input>
+            <Data ID="8333" VariableName="text8333" Label="Text" ReferenceName="Text" ReferencePath="base">
+              <Source RefID="8232"/>
+            </Data>
+            <Source RefID="1875">
+            </Source>
+          </Input>
+          <Output>
+            <Data ID="8384" VariableName="text8384" Label="Text" ReferenceName="Text" ReferencePath="base">
+              <Source RefID="8232"/>
+            </Data>
+            <Target RefID="9499">
+            </Target>
+          </Output>
+          <Mapping>%1%=%0%</Mapping>
+        </Mappings>
+        <Assign ID="8999">
+          <Source RefID="9499">
+          </Source>
+          <Target RefID="9895">
+          </Target>
+          <Copy>
+            <Source RefID="9499">
+            </Source>
+            <Target RefID="9895">
+            </Target>
+          </Copy>
+        </Assign>
+        <Data ID="9499" VariableName="text9499" Label="Text" ReferenceName="Text" ReferencePath="base">
+          <Source RefID="8232"/>
+        </Data>
+      </Case>
+    </Choice>
+    <Mappings ID="260" Label="convert between xyna datatypes">
+      <Input>
+        <Data ID="348" VariableName="serviceOutputDatatype348" Label="Service Output Datatype" ReferenceName="ServiceOutputDatatype" ReferencePath="xyna.example.datatypes">
+          <Source RefID="260"/>
+        </Data>
+        <Source RefID="69">
+        </Source>
+      </Input>
+      <Output>
+        <Data ID="517" VariableName="workflowInputDatatype517" Label="Workflow Input Datatype" IsList="true" ReferenceName="WorkflowInputDatatype" ReferencePath="xyna.example.datatypes">
+          <Source RefID="260"/>
+        </Data>
+        <Target RefID="518">
+        </Target>
+      </Output>
+      <Mapping>%1%["0"].data=%0%.data</Mapping>
+      <Mapping>%1%["0"].data0=%0%.data0</Mapping>
+      <Mapping>%1%["0"].data1=%0%.data1</Mapping>
+      <Mapping>%1%["1"].data="You can create list elements."</Mapping>
+      <Mapping>%1%["1"].data0="You just add an index to the ouput list."</Mapping>
+      <Mapping>%1%["1"].data1="You can not skip an index."</Mapping>
+      <Mapping>%1%["2"].data=length(%0%.data1)-"1"</Mapping>
+      <Mapping>%1%["2"].data0=tolowercase(%0%.data1)</Mapping>
+      <Mapping>%1%["2"].data1=touppercase(%0%.data)</Mapping>
+    </Mappings>
+    <Foreach ID="4193">
+      <Source RefID="518">
+      </Source>
+      <Target RefID="4195">
+      </Target>
+      <InputList RefID="518">
+        <Data ID="4194" VariableName="workflowInputDatatype4194" Label="Workflow Input Datatype" ReferenceName="WorkflowInputDatatype" ReferencePath="xyna.example.datatypes">
+        </Data>
+      </InputList>
+      <OutputList RefID="4195">
+        <Data ID="112" VariableName="workflowOutputDatatype112" Label="Workflow Output Datatype" ReferenceName="WorkflowOutputDatatype" ReferencePath="xyna.example.datatypes">
+          <Source RefID="45"/>
+        </Data>
+      </OutputList>
+      <Function ID="45" Label="Example Subworkflow">
+        <Source RefID="46">
+        </Source>
+        <Source RefID="4194">
+        </Source>
+        <Target RefID="46">
+        </Target>
+        <Target RefID="112">
+        </Target>
+        <Meta>
+          <Documentation>You can call other workflows
+
+With a list of inputs you need to iterate over the inputs and get as manny outputs.
+Foreach acts like map for steps with an output</Documentation>
+        </Meta>
+        <Invoke ServiceID="46" Operation="ExampleSubworkflow">
+          <Source RefID="4194">
+          </Source>
+        </Invoke>
+        <Receive ServiceID="46">
+          <Target RefID="112">
+          </Target>
+        </Receive>
+      </Function>
+    </Foreach>
+    <Foreach ID="4196">
+      <Source RefID="4195">
+      </Source>
+      <Target RefID="4198">
+      </Target>
+      <InputList RefID="4195">
+        <Data ID="4197" VariableName="workflowOutputDatatype4197" Label="Workflow Output Datatype" ReferenceName="WorkflowOutputDatatype" ReferencePath="xyna.example.datatypes">
+        </Data>
+      </InputList>
+      <OutputList RefID="4198">
+        <Data ID="199" VariableName="outputDatatype199" Label="Output Datatype" ReferenceName="OutputDatatype" ReferencePath="xyna.example.datatypes">
+          <Source RefID="155"/>
+        </Data>
+      </OutputList>
+      <Mappings ID="155" Label="Get data from a non unique datatype">
+        <Meta>
+          <Documentation>Inouts and Ouputs are connected by Xyna datatype. If the datatype is not unqiue you need to explicitly select the correct source
+
+
+you can iterate over lists and map data or call services or workflows</Documentation>
+        </Meta>
+        <Input>
+          <Data ID="2868" VariableName="text2868" Label="Text" ReferenceName="Text" ReferencePath="base">
+            <Source RefID="155"/>
+          </Data>
+          <Source RefID="1875">
+            <Meta>
+              <LinkType>UserConnected</LinkType>
+            </Meta>
+          </Source>
+        </Input>
+        <Input>
+          <Data ID="3353" VariableName="serviceInputDatatype3353" Label="Service Input Datatype" ReferenceName="ServiceInputDatatype" ReferencePath="xyna.example.datatypes">
+            <Source RefID="155"/>
+          </Data>
+          <Source RefID="811">
+          </Source>
+        </Input>
+        <Input>
+          <Data ID="3842" VariableName="workflowOutputDatatype3842" Label="Workflow Output Datatype" ReferenceName="WorkflowOutputDatatype" ReferencePath="xyna.example.datatypes">
+            <Source RefID="155"/>
+          </Data>
+          <Source RefID="4197">
+          </Source>
+        </Input>
+        <Output>
+          <Data ID="198" VariableName="outputDatatype198" Label="Output Datatype" ReferenceName="OutputDatatype" ReferencePath="xyna.example.datatypes">
+            <Source RefID="155"/>
+          </Data>
+          <Target RefID="199">
+          </Target>
+        </Output>
+        <Mapping>%3%.data=%0%.text</Mapping>
+        <Mapping>%3%.data0=replaceall(%1%.data, "_suffix", "a different suffix")</Mapping>
+        <Mapping>%3%.data1=%2%.data1</Mapping>
+      </Mappings>
+    </Foreach>
+    <Data ID="69" VariableName="serviceOutputDatatype69" Label="Service Output Datatype" ReferenceName="ServiceOutputDatatype" ReferencePath="xyna.example.datatypes">
+      <Source RefID="66"/>
+    </Data>
+    <Data ID="518" VariableName="workflowInputDatatype518" Label="Workflow Input Datatype" IsList="true" ReferenceName="WorkflowInputDatatype" ReferencePath="xyna.example.datatypes">
+      <Source RefID="260"/>
+    </Data>
+    <Data ID="811" VariableName="serviceInputDatatype811" Label="Service Input Datatype" ReferenceName="ServiceInputDatatype" ReferencePath="xyna.example.datatypes">
+      <Source RefID="767"/>
+    </Data>
+    <Data ID="1875" VariableName="text1875" Label="Text" ReferenceName="Text" ReferencePath="base">
+      <Source RefID="1831"/>
+    </Data>
+    <Data ID="4195" VariableName="workflowOutputDatatype4195" Label="Workflow Output Datatype" IsList="true" ReferenceName="WorkflowOutputDatatype" ReferencePath="xyna.example.datatypes">
+      <Source RefID="4193"/>
+      <Target RefID="4195"/>
+    </Data>
+    <Data ID="4198" VariableName="outputDatatype4198" Label="Output Datatype" IsList="true" ReferenceName="OutputDatatype" ReferencePath="xyna.example.datatypes">
+      <Source RefID="4196"/>
+      <Target RefID="4198"/>
+    </Data>
+    <Data ID="9890" VariableName="text9890" Label="Text" ReferenceName="Text" ReferencePath="base">
+      <Source RefID="9838"/>
+    </Data>
+    <Data ID="9895" VariableName="text9895" Label="Text" ReferenceName="Text" ReferencePath="base">
+      <Source RefID="8996"/>
+    </Data>
+    <Assign ID="1">
+      <Source RefID="4198">
+      </Source>
+      <Target RefID="31">
+      </Target>
+      <Copy>
+        <Source RefID="4198">
+        </Source>
+        <Target RefID="31">
+        </Target>
+      </Copy>
+    </Assign>
+  </Operation>
+</Service>

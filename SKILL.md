@@ -1,6 +1,6 @@
 ---
 name: xyna-factory-cli
-description: Use this skill to inspect Xyna Factory using the CLI (status, applications, triggers, persistence, configuration).
+description: Use this skill to inspect and operate Xyna Factory using the CLI (status, applications, triggers, persistence, configuration).
 ---
 
 # Xyna Factory CLI
@@ -40,7 +40,18 @@ Check other locations:
 find /opt -name xynafactory.sh
 find /usr/local -name xynafactory.sh
 find /local -name xynafactory.sh
+find -L $HOME -name xynafactory.sh
 ```
+
+If you can not find the script, check if Xyna is running by looking for the JVM running it.
+
+```bash
+ps aux | grep XynaFactoryCommandLineInterface
+```
+
+If there is an open tcp socket on ```localhost:4242```, try [this script](./scripts/xyna_cli.sh).
+
+If the factory is not running, gather information about the installation (see below) and report to the user.
 
 ---
 
@@ -52,13 +63,13 @@ Command options differ per command.
 1. List commands:
 
 ```bash
-$XYNA help
+$XYNA help | grep '###'
 ```
 
 2. Search commands:
 
 ```bash
-$XYNA help | grep <keyword>
+$XYNA help | grep '###' | grep <keyword>
 ```
 
 3. Inspect command options:
@@ -203,38 +214,45 @@ $XYNA showorderdetails -v -id <orderId>
 # Factory Not Running
 
 If the Xyna Factory is not running, CLI commands will not work.  
-Useful information can still be obtained from the filesystem. [c.f.](./references/xyna-factory-config-files.md)
+Gather information from the filesystem and check the logs. [c.f.](./references/config-files.md)
 
 ---
 
 # Log Files and Logging Configuration
 
-Xyna Factory uses **Log4j2** for logging. [c.f.](./references/xyna-factory-logging.md)
+Xyna Factory uses **Log4j2** for logging. [c.f.](./references/logging.md)
 
 ---
 
 # Development
+Xyna Datatypes, Exceptions, Service Groups and Workflows are part of the Xyna Meta Object Model (XMOM). They are stored as XML files within workspaces and applications.
+When they are deployed, the XML is used to generate Java code which is then compiled to be run by Xyna Factory.
 
 ## Datatypes, Exceptions and Service Groups
-See [Datatype Dev](./references/xyna-factory-datatype-development.md)
+See [Datatypes and Service Groups](./references/datatypes.md) for Xyna modelled datatypes and service groups.
 
-## Workflows
-tbd
+See [Exceptions](./references/exceptions.md) for development of Xyna modelled exceptions.
 
+## Workflows (wip)
+See [Workflows](./references/workflows.md) for development of Xyna workflows.
+
+## Development Loop
+See [Dev Loop](./references/dev-loop.md) for how to develop XMOM objects.
 ---
 
 # Safe Usage Guidelines
 
-Prefer commands that:
+Prefer commands that start with:
 
-- inspect system status
-- list configuration
-- show mappings
+- list
+- print
+- show
 
 Avoid commands that:
 
 - modify configuration
-- delete objects
-- restart components
+- delete or remove objects
+- undeploy objects
+- stop or restart components
 
 unless explicitly requested.
