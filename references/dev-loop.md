@@ -6,6 +6,8 @@
 
 - Use "default workspace" (revision "-1") unless you are given another workspace
 - Create the workspace if it does not exist
+- Use the workspace of the objects you are changing, do not copy them to the default workspace
+- Do not change objects from an application, stop immediatly
 - If the workspace status is not OK, stop immediately and report the problem
 - Create a temporary working directory e.g. ```XML_DIR=§(mktemp -d)```
 - Check the Java version to use
@@ -27,15 +29,10 @@
 2. Work loop
 
 - If you want to change an existing object, locate its XML in its revision directory and copy it to ```$XML_DIR```
-- Validate your XML before deployment:
-  - For datatypes and service groups:
-    ```bash
-    ../scripts/validate_xmom_xml.sh <yourfile.xml>
-    ```
-  - For exceptions:
-    ```bash
-    ../scripts/validate_exception_xml.sh <yourfile.xml>
-    ```
+- Validate your XML before deployment by running [validate_xmom_xml.sh](../scripts/validate_xmom_xml.sh):
+  ```bash
+  ../scripts/validate_xmom_xml.sh <yourfile.xml>
+  ```
   - If the validation fails:
     - Carefully read the error output from the validation script.
     - Open your XML in an editor and correct the reported structural or typographical errors.

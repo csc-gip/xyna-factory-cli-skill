@@ -1,19 +1,19 @@
 ---
 name: xyna-factory-cli
-description: Use this skill to inspect and operate Xyna Factory using the CLI (status, applications, triggers, persistence, configuration).
+description: Use this skill to operate and troubleshoot Xyna Factory through its CLI, covering system status, applications/workspaces, triggers/filters, persistence layers, logging, and runtime configuration, plus XMOM development tasks (datatypes, exceptions, workflows).
 ---
 
 # Xyna Factory CLI
 
-The Xyna Factory CLI is executed via:
+The Xyna Factory CLI is usually executed via:
 
-```
+```bash
 /opt/xyna/xyna_001/server/xynafactory.sh
 ```
 
-The script is usually **not in PATH**, so use the full path or define a shortcut.
+The script is usually **not in PATH**, so use the full path.
 
-Recommended:
+Recommended: Set a shortcut
 
 ```bash
 XYNA_DIR=/opt/xyna/xyna_001
@@ -26,30 +26,7 @@ Example:
 $XYNA status
 ```
 
-If the script cannot be found:
-
-Check environment variables:
-
-```bash
-env | grep -i xyna
-```
-
-Check other locations:
-
-```bash
-find /opt -name xynafactory.sh
-find /usr/local -name xynafactory.sh
-find /local -name xynafactory.sh
-find -L $HOME -name xynafactory.sh
-```
-
-If you can not find the script, check if Xyna is running by looking for the JVM running it.
-
-```bash
-ps aux | grep XynaFactoryCommandLineInterface
-```
-
-If there is an open tcp socket on ```localhost:4242```, try [this script](./scripts/xyna_cli.sh).
+If the script cannot be found see [CLI discovery](./references/cli-discovery.md)
 
 If the factory is not running, gather information about the installation (see below) and report to the user.
 
@@ -113,7 +90,14 @@ $XYNA listapplications -t --hideDefinitions
 $XYNA listworkspaces -t
 ```
 
-(`-t` is supported by these commands and formats output as a table.)
+(`-t` output as table, it adds revisions numbers)
+
+List relations of application or workspace
+
+```bash
+$XYNA listruntimecontextdependencies -t -workspaceName <workspace>
+$XYNA listruntimecontextdependencies -t -applicationName <app> -versionName <version>
+```
 
 ---
 
@@ -221,6 +205,35 @@ Gather information from the filesystem and check the logs. [c.f.](./references/c
 # Log Files and Logging Configuration
 
 Xyna Factory uses **Log4j2** for logging. [c.f.](./references/logging.md)
+
+---
+
+# Directory Structure of Xyna Factory installations
+
+Relative to the installation directory (e.g. `/opt/xyna/xyna_001`), the structure typically looks like this:
+
+```text
+/opt/xyna/xyna_001/
+├─ backup/                  # Older installation snapshots after updates
+├─ server/                  # Contains the CLI script
+│  ├─ lib/                  # Global Xyna Java libraries
+│  ├─ userlib/              # User-provided global Java libraries (e.g. JDBC drivers)
+│  ├─ persistencelayers/    # Available Xyna storage backend libraries
+│  └─ storage/              # File-based storage backend data
+│     └─ persistence/       # Storage backend configuration (persistencelayers)
+├─ revisions/               # datatypes/workflows and Java libraries
+│  ├─ rev_workingset/       # The default workspace
+│  └─ rev_<number>/         # Runtime contexts by revision number (applications/workspaces)
+└─ xmomrepository/          # History for each runtime context
+   ├─ runtimecontexts       # File listing all runtime contexts in this directory
+   └─ <app or ws rtc>/      # One directory per runtime context
+      └─ history            # Log file of runtime context changes
+```
+
+Each revision directory (for example `rev_workingset/` or `rev_<number>/`) contains dedicated directories for triggers, filters, services, shared libraries, and XMOM objects.
+For workspace runtime contexts, it also contains the working copy under `saved/`.
+
+**DO NOT** change files in or below `revisions/` or `xmomrepository/`; they are managed by Xyna Factory.
 
 ---
 

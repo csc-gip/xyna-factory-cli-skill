@@ -19,3 +19,23 @@ $XYNA listexceptions -workspaceName <workspace name>
    ```bash
    $XYNA deployexception -fqExceptionName <TypePath.TypeName> -workspaceName <workspace name> -xmlFile <yourfile.xml>
    ```
+
+
+## Important Notes
+
+- Use PascalCase for ```TypeName``` and a valid Java package name for ```TypePath```
+- Use PascalCase for ```ReferenceName``` and a valid Java package name syntax for ```ReferencePath```
+- Use CamelCase for variablenames
+- Use unique variablenames within an XML
+
+
+---
+
+### Validating Exception XML
+
+Use the shared validator for all XMOM artifacts ([validate_xmom_xml.sh](../scripts/validate_xmom_xml.sh)):
+```bash
+../scripts/validate_xmom_xml.sh path/to/yourfile.xml
+```
+
+Requires `xmllint` and the schema files (`XMDM.xsd`, `MessageStorage1.1.xsd`) alongside the script.
