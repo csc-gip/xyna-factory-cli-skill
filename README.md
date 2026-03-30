@@ -72,3 +72,46 @@ Examples:
 - Read-only references are under `references/`.
 - XML examples for XMOM are in `datatype-examples/` and `wf-examples/`.
 - Validation assets are in `scripts/`.
+
+## Running the image with host data and SSH tunnel
+
+The container can reuse local Xyna artifacts and forward host ports by mounting the relevant directories and running an SSH tunnel from the `pi` user. A typical `docker run` command looks like this:
+
+```
+docker run --rm -it \
+  --name xyna-cli \
+  -v /tmp:/tmp \
+  -v /etc/opt/xyna:/etc/opt/xyna:ro \
+  -v /opt/xyna/xyna_001:/opt/xyna/xyna_001:ro \
+  -v $HOME/.ssh:/home/pi/.ssh:ro \
+  --user pi \
+  xyna-factory-cli
+```
+
+The SSH keys that live under your host `~/.ssh` are available inside the container because the volume is mounted into `/home/pi/.ssh`. With `openssh-client` installed, you can run an SSH tunnel from inside the container to forward the host's localhost:4242 port back into the container:
+
+```
+ssh -N -L 4242:localhost:4242 host.docker.internal
+```
+
+On Windows the `host.docker.internal` hostname already resolves to the Docker host. If you are working on Linux, add `--add-host host.docker.internal:host-gateway` to the `docker run` command so the tunnel has a reachable endpoint. Make sure the host SSH server accepts the key pair you mounted, as the tunnel requires an active SSH session.
+
+Podman users can run the same volume mounts with `podman run` instead of `docker run`. Because Podman does not automatically provide `host.docker.internal`, add `--add-host host.containers.internal:host-gateway` and use that hostname in the SSH tunnel command:
+
+```
+podman run --rm -it \
+  --name xyna-cli \
+  -v /tmp:/tmp \
+  -v /etc/opt/xyna:/etc/opt/xyna:ro \
+  -v /opt/xyna/xyna_001:/opt/xyna/xyna_001:ro \
+  -v $HOME/.ssh:/home/pi/.ssh:ro \
+  --add-host host.containers.internal:host-gateway \
+  --user pi \
+  xyna-factory-cli
+```
+
+```
+ssh -N -L 4242:localhost:4242 host.containers.internal
+```
+
+On Linux, Podman already uses the host gateway for networking, so no extra flags are needed beyond the `--add-host` entry. Podman on Windows or macOS requires the `host-containers` name to reach the host and is otherwise equivalent to the Docker approach.
