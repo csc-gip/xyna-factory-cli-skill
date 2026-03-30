@@ -26,4 +26,4 @@ RUN chown -R pi:pi /home/pi/.agents
 USER pi
 WORKDIR /home/pi
 
-CMD ["bash"]
+CMD ["pi"]
