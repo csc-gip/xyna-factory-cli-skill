@@ -83,6 +83,7 @@ docker run --rm -it \
   -v /tmp:/tmp \
   -v /etc/opt/xyna:/etc/opt/xyna:ro \
   -v /opt/xyna/xyna_001:/opt/xyna/xyna_001:ro \
+  -v /var/log/xyna/xyna_001:/var/log/xyna/xyna_001:ro \
   -v $HOME/.ssh:/home/pi/.ssh:ro \
   --user pi \
   xyna-factory-cli
@@ -104,6 +105,7 @@ podman run --rm -it \
   -v /tmp:/tmp \
   -v /etc/opt/xyna:/etc/opt/xyna:ro \
   -v /opt/xyna/xyna_001:/opt/xyna/xyna_001:ro \
+  -v /var/log/xyna/xyna_001:/var/log/xyna/xyna_001:ro \
   -v $HOME/.ssh:/home/pi/.ssh:ro \
   --add-host host.containers.internal:host-gateway \
   --user pi \
